@@ -3,13 +3,16 @@
 
 Vagrant.require_version ">= 1.9.5"
 
+begin
+  require_relative('settings')
+rescue LoadError
+end
+
 ANSIBLE_GROUPS ||={}
 ANSIBLE_TAGS ||= nil
 ANSIBLE_VERBOSE ||= nil
 ANSIBLE_EXTRA_VARS ||= {}
-ansible_groups = {
-  "yum-proxy" => ["default"],
-}
+ansible_groups = {}
 ansible_groups.merge!(ANSIBLE_GROUPS)
 ansible_galaxy_role_file ||='ansible/requirements.yml'
 

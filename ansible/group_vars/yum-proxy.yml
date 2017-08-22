@@ -1,5 +1,6 @@
 ---
 yum_proxy_manage: true
 yum_proxy_disable: false
+# Debian's yum proxy via squid-deb-proxy
 yum_proxy_url: http://10.0.2.2:8000/
 
