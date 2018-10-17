@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
     vb.cpus = 2
     vb.customize ["modifyvm", :id, "--ostype", "Redhat_64"]
     vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
-    vb.customize ["storageattach", :id, "--storagectl", "SATA Controller", "--device", "0", "--port", "0", "--nonrotational", "on", "--discard", "on"]
+    vb.customize ["storageattach", :id, "--storagectl", "IDE", "--device", "0", "--port", "0", "--nonrotational", "on", "--discard", "on"]
     # timesync equivalent to 2.5 minutes in ms)
     vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "150000"]
   end
