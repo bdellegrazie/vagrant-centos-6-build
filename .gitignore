@@ -1,6 +1,7 @@
 # Vagrant
 .vagrant/
 settings.rb
+*.rpm
 
 CentOS/
 
@@ -12,6 +13,7 @@ ansible/galaxy_roles/
 .settings/
 .project
 .pydevproject
+.venv/
 
 # OS X
 .DS_Store

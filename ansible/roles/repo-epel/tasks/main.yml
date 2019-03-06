@@ -1,4 +1,6 @@
 ---
 - name: "Install EPEL Repo (CentOS)"
-  yum: name=epel-release state=present
+  yum:
+    name: epel-release
+    state: present
   when: ansible_distribution == "CentOS"

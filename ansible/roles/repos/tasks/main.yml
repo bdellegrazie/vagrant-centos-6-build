@@ -16,4 +16,3 @@
     state: "{{ item.state | default(omit) }}"
   when: ansible_os_family == 'RedHat' and repos_yum_manage
   with_items: "{{ repos_yum_list }}"
-

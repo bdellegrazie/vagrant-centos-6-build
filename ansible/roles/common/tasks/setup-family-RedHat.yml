@@ -11,10 +11,9 @@
 # Always use protect base when multiple repos are in use
 - name: Install yum protectbase plugin
   yum:
-    name: "{{ item }}"
+    name:
+      - yum-plugin-protectbase
+      - python-lxml
+      - unzip
     state: present
   when: ansible_os_family == 'RedHat'
-  with_items:
-    - yum-plugin-protectbase
-    - python-lxml
-    - unzip
