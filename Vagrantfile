@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant.require_version ">= 1.9.5"
+Vagrant.require_version ">= 2.2.5"
 
 begin
   require_relative('settings')
@@ -25,19 +25,29 @@ Vagrant.configure("2") do |config|
 
   # View the documentation for the provider you are using for more
   # information on available options.
-  config.vm.provider :virtualbox do |vb|
-    vb.gui = false
-    vb.memory = 2048
-    vb.cpus = 2
-    vb.customize ["modifyvm", :id, "--ostype", "Redhat_64"]
-    vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
-    vb.customize ["storageattach", :id, "--storagectl", "IDE", "--device", "0", "--port", "0", "--nonrotational", "on", "--discard", "on"]
+  config.vm.provider "libvirt" do |v, override|
+    override.vagrant.plugins = ["vagrant-hosts", "vagrant-sshfs"]
+    v.cpus = 2
+    v.memory = 2048
+    v.keymap = "en-gb"
+    v.random :model => 'random'
+    v.channel :type => 'unix', :target_name => 'org.qemu.guest_agent.0', :target_type => 'virtio'
+    override.vm.synced_folder ".", "/vagrant", type: "sshfs"
+  end
+  config.vm.provider :virtualbox do |v, override|
+    override.vagrant.plugins = ["vagrant-hosts", "vagrant-vbguest"]
+    v.gui = false
+    v.memory = 2048
+    v.cpus = 2
+    v.customize ["modifyvm", :id, "--ostype", "Redhat_64"]
+    v.customize ["modifyvm", :id, "--nictype1", "virtio"]
+    v.customize ["storageattach", :id, "--storagectl", "IDE", "--device", "0", "--port", "0", "--nonrotational", "on", "--discard", "on"]
     # timesync equivalent to 2.5 minutes in ms)
-    vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "150000"]
+    v.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "150000"]
+    override.vm.synced_folder ".", "/vagrant", type: "virtualbox"
+    override.vbguest.no_remote = true
   end
 
-  config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
-  config.vbguest.no_remote = true
   config.ssh.forward_agent = true
   config.ssh.insert_key = false
 
