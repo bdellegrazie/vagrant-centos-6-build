@@ -1,21 +1,32 @@
+---
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks.git
-    rev: v2.0.0
+  - repo: https://github.com/pre-commit/pre-commit-hooks.git
+    rev: v2.3.0
     hooks:
-    -   id: trailing-whitespace
+      - id: trailing-whitespace
         files: \.(js|rb|md|py|sh|txt|yaml|yml)$
-    -   id: check-yaml
+      - id: check-yaml
         files: \.(yaml|yml)$
-    -   id: check-merge-conflict
+      - id: check-merge-conflict
         files: \.(js|rb|md|py|sh|txt|yaml|yml)$
-    -   id: check-symlinks
--   repo: https://github.com/willthames/ansible-lint.git
-    rev: v3.4.23
+      - id: check-symlinks
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.17.0
     hooks:
-    -   id: ansible-lint
-        files: \.(yaml|yml)$
-        args:
-        - --exclude=.travis.yml
-        - --exclude=ansible/requirements.yml
-        - --exclude=ansible/galaxy_roles
-        - --exclude=test
+      - id: yamllint
+  - repo: https://github.com/ansible/ansible-lint.git
+    rev: v4.1.0
+    hooks:
+      - id: ansible-lint
+        always_run: true
+        args: ['ansible/site.yml']
+        pass_filenames: false
+  - repo: local
+    hooks:
+      - id: vagrant-validate
+        name: vagrant validate
+        entry: vagrant
+        language: system
+        pass_filenames: false
+        always_run: true
+        args: [ 'validate' ]
