@@ -13,6 +13,7 @@ ansible/galaxy_roles/
 .settings/
 .project
 .pydevproject
+.direnv/
 .venv/
 
 # OS X
